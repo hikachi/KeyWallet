@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:key_wallet/register_view.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -19,19 +22,21 @@ class LoginView extends StatelessWidget {
             child: SizedBox(
               width: 500,
               child: Column(
-                children:  <Widget>[
-                  Image(image: AssetImage('assets/images/logo.png')),
-                  SizedBox(height: 100,),
-                  Padding(
+                children: <Widget>[
+                  Image(image: const AssetImage('assets/images/logo.png')),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  const Padding(
                     padding: EdgeInsets.all(10),
                     child: TextField(
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'User Name',
-                          hintText: 'Enter valid mail id as abc@gmail.com'),
+                          hintText: 'Enter login'),
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(10),
                     child: TextField(
                       obscureText: true,
@@ -39,6 +44,24 @@ class LoginView extends StatelessWidget {
                           border: OutlineInputBorder(), labelText: 'Password', hintText: 'Enter your secure password'),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[ElevatedButton(onPressed: () {}, child: Text('Zaloguj'))],
+                    ),
+                  ),
+                  const Divider(),
+                  RichText(
+                      text: TextSpan(children: [
+                    const TextSpan(text: "Nie masz konta ? "),
+                    TextSpan(
+                        text: 'Zarejestruj się.',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () =>
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterView())))
+                  ]))
                 ],
               ),
             ),

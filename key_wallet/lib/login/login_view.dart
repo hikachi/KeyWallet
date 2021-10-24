@@ -1,13 +1,17 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:key_wallet/register_view.dart';
+import 'package:key_wallet/register/register_view.dart';
+import 'package:provider/provider.dart';
+
+import 'login_bloc.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    LoginBloc bloc = Provider.of<LoginBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(title: Text("Key wallet")),
       body: Container(
@@ -27,20 +31,20 @@ class LoginView extends StatelessWidget {
                   const SizedBox(
                     height: 100,
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(10),
                     child: TextField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'User Name',
-                          hintText: 'Enter login'),
+                      onChanged: bloc.loginChanged,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), labelText: 'User Name', hintText: 'Enter login'),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.all(10),
                     child: TextField(
+                      onChanged: bloc.passwordChanged,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(), labelText: 'Password', hintText: 'Enter your secure password'),
                     ),
                   ),
@@ -48,7 +52,13 @@ class LoginView extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[ElevatedButton(onPressed: () {}, child: Text('Zaloguj'))],
+                      children: <Widget>[
+                        ElevatedButton(
+                            onPressed: () {
+                              bloc.checkLogin(context);
+                            },
+                            child: Text('Zaloguj'))
+                      ],
                     ),
                   ),
                   const Divider(),

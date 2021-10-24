@@ -22,15 +22,15 @@ class UserDao {
     User x = await userBox.get(login);
     try {
       Password pass = x.passwords.firstWhere((element) => element.webAddress == webAdr);
-      pass.password = HashFunctions().calcDecryAes(pass.password, x.salt);
-      return pass;
+      Password newPassObject = Password(HashFunctions().calcDecryAes(pass.password, x.salt), pass.webAddress, pass.decription, pass.login);
+      return newPassObject;
     } catch (e) {
       return null;
     }
   }
 
   bool createUser(String login, String password, bool isHash) {
-    if (userBox.containsKey(login)) {
+    if (!userBox.containsKey(login)) {
       String salt = HashFunctions().getRandomPepper();
       String passwordHash =
           isHash ? HashFunctions().calcHmac(password) : HashFunctions().calcSHA512(password, Const.pepper, salt);
@@ -88,7 +88,7 @@ class UserDao {
       for(Password pass in user.passwords){
         String x = HashFunctions().calcDecryAes(pass.password, user.salt);
         String newPass = HashFunctions().calcEnryptAes(x, salt);
-        newPasswords.add(Password(pass.webAddress, pass.decription, pass.login, newPass));
+        newPasswords.add(Password(newPass,pass.webAddress, pass.decription, pass.login ));
       }
       user.salt = salt;
       user.passwordHash = passwordHash;

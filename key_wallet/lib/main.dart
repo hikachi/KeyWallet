@@ -11,6 +11,15 @@ import 'package:key_wallet/shared/repositories/models/password.dart';
 import 'package:key_wallet/shared/repositories/models/user.dart';
 import 'package:path_provider/path_provider.dart' as pathProvider;
 
+// main() async{
+//   Directory directory = await pathProvider.getApplicationDocumentsDirectory();
+//   Hive.init(directory.path);
+//   Hive.registerAdapter(UserAdapter());
+//   Hive.registerAdapter(PasswordAdapter());
+//   var box = await Hive.openBox(Const.hiveUserBox);
+//   box.clear();
+//   box.deleteFromDisk();
+// }
 Future<void> main() async {
   Directory directory = await pathProvider.getApplicationDocumentsDirectory();
   Hive.init(directory.path);

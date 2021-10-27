@@ -35,14 +35,15 @@ class HashFunctions {
     final encrypter = Encrypter(AES(keyHash));
     final iv = IV.fromUtf8(Const.pepper);
     final encrypted = encrypter.encrypt(password,iv: iv);
-
-    return encrypted.base64;
+    return encrypted.base16;
   }
   String calcDecryAes(String password, String key){
+    print('decry aes: $password + key $key + ${password}');
     final keyHash=Key.fromUtf8(calcMD5(key));
     final encrypter = Encrypter(AES(keyHash));
     final iv = IV.fromUtf8(Const.pepper);
-    final decrypted = encrypter.decrypt(Encrypted.fromBase64(password),iv: iv);
+    final decrypted = encrypter.decrypt(Encrypted.fromBase16(password),iv: iv);
+    print(encrypter.decrypt(Encrypted.fromBase16(password),iv: iv));
     return decrypted;
   }
 

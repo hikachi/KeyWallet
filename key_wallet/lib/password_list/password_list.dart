@@ -158,7 +158,7 @@ class PasswordListView extends StatelessWidget {
 
   Widget passwordData(Password data) {
     return Column(
-      children: <Widget>[Text(data.webAddress), Text(data.decription), Text(data.login), Text(data.password)],
+      children: <Widget>[Text('Adres: ${data.webAddress}'), Text('Opis: ${data.decription}'), Text('Login: ${data.login}'), Text('Hasło: ${data.password}')],
     );
   }
 

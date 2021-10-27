@@ -17,6 +17,4 @@ class User{
   final bool isPasswordKeptAsHash;
   @HiveField(6)
   List<Password> passwords;
-
-
 }

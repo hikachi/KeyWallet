@@ -22,7 +22,8 @@ class UserDao {
     User x = await userBox.get(login);
     try {
       Password pass = x.passwords.firstWhere((element) => element.webAddress == webAdr);
-      Password newPassObject = Password(HashFunctions().calcDecryAes(pass.password, x.salt), pass.webAddress, pass.decription, pass.login);
+      Password newPassObject = Password(HashFunctions().calcDecryAes(pass.password, x.salt, Const.pepper),
+          pass.webAddress, pass.decription, pass.login);
       return newPassObject;
     } catch (e) {
       return null;
@@ -71,7 +72,7 @@ class UserDao {
 
   Password createPassword(String webAdress, String decription, String login, String password, String userLogin) {
     User user = userBox.get(userLogin);
-    String pass = HashFunctions().calcEnryptAes(password, user.salt);
+    String pass = HashFunctions().calcEnryptAes(password, user.salt, Const.pepper);
     return Password(pass, webAdress, decription, login);
   }
 
@@ -85,10 +86,10 @@ class UserDao {
           : HashFunctions().calcSHA512(newPassword, Const.pepper, salt);
 
       List<Password> newPasswords =[];
-      for(Password pass in user.passwords){
-        String x = HashFunctions().calcDecryAes(pass.password, user.salt);
-        String newPass = HashFunctions().calcEnryptAes(x, salt);
-        newPasswords.add(Password(newPass,pass.webAddress, pass.decription, pass.login ));
+      for(Password pass in user.passwords) {
+        String x = HashFunctions().calcDecryAes(pass.password, user.salt, Const.pepper);
+        String newPass = HashFunctions().calcEnryptAes(x, salt, Const.pepper);
+        newPasswords.add(Password(newPass, pass.webAddress, pass.decription, pass.login));
       }
       user.salt = salt;
       user.passwordHash = passwordHash;
